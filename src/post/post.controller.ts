@@ -1,4 +1,4 @@
-import { Controller ,Post,Get} from '@nestjs/common';
+import { Controller ,Post,Get, Body} from '@nestjs/common';
 import { ApiUseTags, ApiModelProperty, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
 
 export class Cat {
@@ -7,9 +7,6 @@ export class Cat {
   
     @ApiModelProperty()
     age: number;
-  
-    @ApiModelProperty()
-    breed: string;
   }
   
 @Controller('post')
@@ -17,7 +14,7 @@ export class Cat {
 export class PostController {
 
     @Get()
-    @ApiOperation({title:'title',description:'desc'})
+    @ApiOperation({title:'title',description:'description'})
     index(){
         return [
             {index:1,title:2},
@@ -28,9 +25,9 @@ export class PostController {
     }
 
     @Post()
-    @ApiCreatedResponse({ description: 'The record has been successfully created.', type: Cat })
-    create(){
-        return 'post';
+    @ApiOperation({title:'post请求',description:'description'})
+    create(@Body() body:Cat){
+        return body;
     }
 
     @Get(':id')
