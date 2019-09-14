@@ -1,12 +1,13 @@
 import { Controller ,Post,Get, Body, Put, Param, Delete} from '@nestjs/common';
 import { ApiUseTags, ApiModelProperty, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
 import { PostModel } from './post.model';
+import { mongoose } from '@hasezoey/typegoose';
 
 export class Cat {
-    @ApiModelProperty()
+    @ApiModelProperty({description:'帖子标题',example:'帖子标题1'})
     title: string;
   
-    @ApiModelProperty()
+    @ApiModelProperty({description:'帖子内容',example:'帖子内容1'})
     content: string;
   }
   
@@ -22,31 +23,33 @@ export class PostController {
 
     @Post()
     @ApiOperation({title:'post请求',description:'description'})
-    create(@Body() body:Cat){
-        return body;
+    async create(@Body() createPostDto:Cat){
+        await PostModel.create(createPostDto);
+        return {
+            success:true
+        };
     }
 
     @Get(':id')
     @ApiOperation({title:'帖子详情'})
-    detail(@Param('id') id : string){
-        return{
-            id:id,
-            title:'hhhh'
-        }
+    async detail(@Param('id') id : string){
+        return await PostModel.findById(id)
     }
 
     @Put(':id')
     @ApiOperation({title:'编辑帖子'})
-    put(@Param('id') id :string,@Body() body:Cat){
-        return {
-            id:id,
-            success:true
-        }
+    async put(@Param('id') id :string,@Body() updatePostDto:Cat){
+         await PostModel.findByIdAndUpdate(id,updatePostDto)
+         return {
+             success:true
+         }
+        
     }
 
     @Delete(':id')
     @ApiOperation({title:'删除帖子'})
-    remove(@Param('id') id:string){
+    async remove(@Param('id') id:string){
+        await PostModel.findByIdAndDelete(id)
         return{
             success:true
         }
