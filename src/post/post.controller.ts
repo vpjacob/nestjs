@@ -1,12 +1,13 @@
 import { Controller ,Post,Get, Body, Put, Param, Delete} from '@nestjs/common';
 import { ApiUseTags, ApiModelProperty, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
+import { PostModel } from './post.model';
 
 export class Cat {
     @ApiModelProperty()
-    name: string;
+    title: string;
   
     @ApiModelProperty()
-    age: number;
+    content: string;
   }
   
 @Controller('post')
@@ -15,13 +16,8 @@ export class PostController {
 
     @Get()
     @ApiOperation({title:'title',description:'description'})
-    index(){
-        return [
-            {index:1,title:2},
-            {index:1,title:2},
-            {index:1,title:2},
-            {index:1,title:2},
-        ]
+    async index(){
+        return await PostModel.find()
     }
 
     @Post()
