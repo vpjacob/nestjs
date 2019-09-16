@@ -5,7 +5,11 @@ import * as mongoose from 'mongoose';
 
 
 async function bootstrap() {
-  mongoose.connect('mongodb://localhost/nest-blog-api')
+  mongoose.connect('mongodb://localhost/nest-blog-api', {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  })
   const app = await NestFactory.create(AppModule);
 
   // 文档初始化
