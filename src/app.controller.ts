@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 export class AppController {
 
   @Get()
-  index(){
-    return 'index'; 
+  index() {
+    return 'index';
   }
 }

@@ -4,4 +4,4 @@ import { PostController } from './post.controller';
 @Module({
   controllers: [PostController]
 })
-export class PostModule {}
+export class PostModule { }
