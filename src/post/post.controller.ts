@@ -2,9 +2,11 @@ import { Controller, Post, Get, Body, Put, Param, Delete } from '@nestjs/common'
 import { ApiUseTags, ApiModelProperty, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
 import { PostModel } from './post.model';
 import { mongoose } from '@hasezoey/typegoose';
-
+import {IsNotEmpty} from 'class-validator';
+import { from } from 'rxjs';
 export class Cat {
     @ApiModelProperty({ description: '帖子标题', example: '帖子标题1' })
+    @IsNotEmpty({message:'请填写标题'})
     title: string;
 
     @ApiModelProperty({ description: '帖子内容', example: '帖子内容1' })
@@ -22,7 +24,7 @@ export class PostController {
     }
 
     @Post()
-    @ApiOperation({ title: 'post请求', description: 'description' })
+    @ApiOperation({ title: 'post请求 创建', description: 'description' })
     async create(@Body() createPostDto: Cat) {
         await PostModel.create(createPostDto);
         return {
